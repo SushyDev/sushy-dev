@@ -11,11 +11,11 @@
   },
   "dependencies": {
     "@astrojs/tailwind": "^4.0.0",
-    "astro": "^2.8.1",
-    "sass": "^1.63.6",
-    "tailwindcss": "^3.0.24"
+    "astro": "^2.8.1"
   },
   "devDependencies": {
+    "tailwindcss": "^3.0.24",
+    "sass": "^1.63.6",
     "@typescript-eslint/parser": "^6.0.0",
     "eslint": "^8.44.0",
     "eslint-plugin-astro": "^0.27.2"
