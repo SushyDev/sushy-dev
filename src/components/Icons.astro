@@ -27,7 +27,7 @@ function forEachIcon(callback: (icon: Icon) => Element) {
                 forEachIcon((icon) => {
                     return (
                         <li class="flex items-center min-w-max h-12 last-of-type:pr-4">
-                            <img class="h-12" src={icon.image} alt={icon.title} />
+                            <img class="h-12" width="48px" height="48px" src={icon.image} alt={icon.title} />
                             <p class="ml-2 cursor-text">{icon.title}</p>
                         </li>
                     );
