@@ -5,8 +5,8 @@ import Icons from '@/components/Icons.astro';
 ---
 
 <Layout title="Welcome to Astro.">
-	<main>
-		<h1>Welcome to <a href="/"><span class="text-gradient">Sushy.dev</span></a></h1>
+	<main class="container mx-auto p-6">
+		<h1 class="text-5xl font-extrabold mb-8">Welcome to <a href="/"><span class="text-gradient">Sushy.dev</span></a></h1>
 		<Icons />
 		<p class="mt-0 instructions">This is my portfolio website, its currently in development so it might be worth to check it out on a later time! I'm a full-stack web developer, I have a very broad experience with various different programs/tools and even the hardware us developers use them on. If you want a more indepth view of my knowledge you should totally press that "Learn more" button or go right ahead and send me an e-mail!</p>
 		<ul role="list" class="link-card-grid">
@@ -16,16 +16,6 @@ import Icons from '@/components/Icons.astro';
 </Layout>
 
 <style>
-	main {
-		margin: auto;
-		padding: 1.5rem;
-		max-width: 60ch;
-	}
-	h1 {
-		font-size: 3rem;
-		font-weight: 800;
-		margin: 0;
-	}
 	.text-gradient {
 		background-image: var(--accent-gradient);
 		-webkit-background-clip: text;

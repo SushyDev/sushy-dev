@@ -18,49 +18,61 @@ function forEachIcon(callback: (icon: Icon) => Element) {
 
     return categories.map((category) => category.map(callback));
 }
-
-const unique = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-const id = `icon-${unique}`;
 ---
 
-<div class="py-4 overflow-auto no-scrollbar cursor-default" id={id}>
-    <ul class="flex gap-4">
-        {
-            forEachIcon((icon) => {
-                return (
-                    <li class="flex items-center min-w-max h-12">
-                        <img class="h-12" src={icon.image} alt={icon.title} />
-                        <p class="ml-2 cursor-text">{icon.title}</p>
-                    </li>
-                );
-            })
-        }
-    </ul>
+<div class="icon-list-wrapper my-2">
+    <div class="p-4 overflow-auto no-scrollbar cursor-default icon-list">
+        <ul class="flex gap-4">
+            {
+                forEachIcon((icon) => {
+                    return (
+                        <li class="flex items-center min-w-max h-12 last-of-type:pr-4">
+                            <img class="h-12" src={icon.image} alt={icon.title} />
+                            <p class="ml-2 cursor-text">{icon.title}</p>
+                        </li>
+                    );
+                })
+            }
+        </ul>
+    </div>
 </div>
 
-<script define:vars={{id}}>
-const slider = document.getElementById(id);
-
-// animate scroll to right until end reached then scroll to left and repeat
-function animateScroll() {
-    const scrollWidth = slider.scrollWidth;
-    const clientWidth = slider.clientWidth;
-    const scrollLeft = slider.scrollLeft;
-    const rightEndReached = scrollLeft + clientWidth >= scrollWidth;
-    const leftEndReached = scrollLeft <= 0;
-
-    if (rightEndReached) {
-        // animate
-        slider.scrollTo({
-            left: 0,
-            behavior: 'smooth',
-        });
-    } else if (leftEndReached) {
-        // animate
-        slider.scrollTo({
-            left: scrollWidth,
-            behavior: 'smooth',
-        });
+<style>
+    .icon-list-wrapper {
+        padding: 0.25rem;
+        border-radius: 0.6rem;
+        background-size: 0%;
+        background-repeat: no-repeat;
     }
-}
-</script>
+
+    .icon-list-wrapper:hover {
+        background-image: var(--accent-gradient);
+        animation: pulse-in 0.5s ease-in-out;
+        animation-play-state: running;
+        background-size: 400%;
+    }
+
+    @keyframes pulse-in {
+        0% {
+            background-size: 0%;
+        }
+        100% {
+            background-size: 400%;
+        }
+    }
+
+    @keyframes pulse-out {
+        0% {
+            background-size: 400%;
+        }
+        100% {
+            background-size: 0%;
+        }
+    }
+
+    .icon-list {
+        background-color: white;
+        border-radius: calc(0.6rem - 0.25rem);
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+    }
+</style>

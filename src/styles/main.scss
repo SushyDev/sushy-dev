@@ -13,4 +13,9 @@
         -ms-overflow-style: none; /* IE and Edge */
         scrollbar-width: none; /* Firefox */
     }
+
+    /* Container */
+    .container {
+        max-width: 40rem;
+    }
 }
