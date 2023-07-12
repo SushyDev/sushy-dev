@@ -1,0 +1,60 @@
+{
+    "languages": [
+        {
+            "image": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg",
+            "title": "HTML"
+        },
+        {
+            "image": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg",
+            "title": "CSS"
+        },
+        {
+            "image": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg",
+            "title": "Javascript"
+        },
+        {
+            "image": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sass/sass-original.svg",
+            "title": "SASS"
+        },
+        {
+            "image": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg",
+            "title": "Typescript"
+        },
+        {
+            "image": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vuejs/vuejs-original.svg",
+            "title": "VueJS"
+        },
+        {
+            "image": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-plain.svg",
+            "title": "PHP"
+        },
+        {
+            "image": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bash/bash-original.svg",
+            "title": "Bash"
+        }
+    ],
+    "systems": [
+        {
+            "image": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg",
+            "title": "Linux"
+        },
+        {
+            "image": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/apple/apple-original.svg",
+            "title": "MacOS"
+        },
+        {
+            "image": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/windows8/windows8-original.svg",
+            "title": "Windows"
+        }
+    ],
+    "tools": [
+        {
+            "image": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/googlecloud/googlecloud-original.svg",
+            "title": "Google Cloud"
+        },
+        {
+            "image": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain.svg",
+            "title": "Firebase"
+        }
+    ]
+}

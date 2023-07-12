@@ -1,0 +1,66 @@
+---
+import list from '@/assets/icon-list.json';
+
+type Icon = {
+    image: string;
+    title: string;
+};
+
+type Icons = {
+    [key: string]: Icon[];
+};
+
+function forEachIcon(callback: (icon: Icon) => Element) {
+    const iconsList: Icons = list;
+
+    const categoryKeys = Object.keys(iconsList);
+    const categories = categoryKeys.map((key) => iconsList[key]);
+
+    return categories.map((category) => category.map(callback));
+}
+
+const unique = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+const id = `icon-${unique}`;
+---
+
+<div class="py-4 overflow-auto no-scrollbar cursor-default" id={id}>
+    <ul class="flex gap-4">
+        {
+            forEachIcon((icon) => {
+                return (
+                    <li class="flex items-center min-w-max h-12">
+                        <img class="h-12" src={icon.image} alt={icon.title} />
+                        <p class="ml-2 cursor-text">{icon.title}</p>
+                    </li>
+                );
+            })
+        }
+    </ul>
+</div>
+
+<script define:vars={{id}}>
+const slider = document.getElementById(id);
+
+// animate scroll to right until end reached then scroll to left and repeat
+function animateScroll() {
+    const scrollWidth = slider.scrollWidth;
+    const clientWidth = slider.clientWidth;
+    const scrollLeft = slider.scrollLeft;
+    const rightEndReached = scrollLeft + clientWidth >= scrollWidth;
+    const leftEndReached = scrollLeft <= 0;
+
+    if (rightEndReached) {
+        // animate
+        slider.scrollTo({
+            left: 0,
+            behavior: 'smooth',
+        });
+    } else if (leftEndReached) {
+        // animate
+        slider.scrollTo({
+            left: scrollWidth,
+            behavior: 'smooth',
+        });
+    }
+}
+</script>
