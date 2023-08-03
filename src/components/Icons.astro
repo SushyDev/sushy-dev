@@ -21,8 +21,8 @@ function forEachIcon(callback: (icon: Icon) => Element) {
 ---
 
 <div class="icon-list-wrapper my-2">
-    <div class="p-4 overflow-auto no-scrollbar cursor-default icon-list">
-        <ul class="flex gap-4">
+    <div class="p-4 overflow-hidden no-scrollbar cursor-default icon-list">
+        <ul class="flex">
             {
                 forEachIcon((icon) => {
                     return (
@@ -52,6 +52,10 @@ function forEachIcon(callback: (icon: Icon) => Element) {
         background-size: 400%;
     }
 
+    .icon-list-wrapper div ul {
+        animation: marquee 9s linear infinite;
+    }
+
     @keyframes pulse-in {
         0% {
             background-size: 0%;
@@ -67,6 +71,15 @@ function forEachIcon(callback: (icon: Icon) => Element) {
         }
         100% {
             background-size: 0%;
+        }
+    }
+
+    @keyframes marquee {
+        0% {
+            transform: translateX(100%);
+        }
+        100% {
+            transform: translateX(-100%);
         }
     }
 
