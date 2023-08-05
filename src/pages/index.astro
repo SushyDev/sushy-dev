@@ -6,11 +6,22 @@ import Icons from '@/components/Icons.astro';
 
 <Layout title="Welcome to Sushy.dev">
     <main class="container mx-auto p-6">
-        <h1 class="text-5xl font-extrabold mb-8">Welcome to <a href="/"><span class="text-gradient">Sushy.dev</span></a></h1>
+        <h1 class="text-5xl font-extrabold mb-8">
+            Welcome to <a href="/"><span class="text-gradient">Sushy.dev</span></a>
+        </h1>
+
         <Icons />
-        <p class="mt-0 instructions">This is my portfolio website, its currently in development so it might be worth to check it out on a later time! I'm a full-stack web developer, I have a very broad experience with various different programs/tools and even the hardware us developers use them on. If you want a more indepth view of my knowledge you should totally press that "Learn more" button or go right ahead and send me an e-mail!</p>
+
+        <p class="mt-0 instructions">
+            This is my portfolio website, its currently in development so it might be worth to check it out on a later time! I'm a full-stack web developer, I have a very broad experience with various different programs/tools and even the hardware us developers use them on. If you want a more indepth view of my knowledge you should totally press that "Learn more" button or go right ahead and send me an e-mail!
+        </p>
+
         <ul role="list" class="link-card-grid">
-            <Card href="https://github.com/SushyDev" title="Github" body="Check out my Github profile." />
+            <Card
+                href="https://github.com/SushyDev"
+                title="Github"
+                body="Check out my Github profile."
+            />
         </ul>
     </main>
 </Layout>
@@ -23,6 +34,7 @@ import Icons from '@/components/Icons.astro';
         background-size: 400%;
         background-position: 0%;
     }
+
     .instructions {
         line-height: 1.6;
         margin: 1rem 0;
@@ -31,6 +43,7 @@ import Icons from '@/components/Icons.astro';
         padding: 1rem;
         border-radius: 0.4rem;
     }
+
     .instructions code {
         font-size: 0.875em;
         font-weight: bold;
@@ -39,14 +52,15 @@ import Icons from '@/components/Icons.astro';
         border-radius: 4px;
         padding: 0.3em 0.45em;
     }
+
     .instructions strong {
         color: rgb(var(--accent));
     }
+
     .link-card-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(24ch, 1fr));
         gap: 1rem;
         padding: 0;
     }
-
 </style>

@@ -1,0 +1,40 @@
+<img id="cover" />
+
+<script>
+    import Spotify from '../../plugins/spotify.js'
+
+    // get gif from query paramers
+    const urlParams = new URLSearchParams(window.location.search)
+
+    const gif = urlParams.get('gif')
+
+    async function updateImage() {
+        const imageElement = document.getElementById('cover')
+
+        const data = await Spotify.currentPlayingInfo()
+
+        const { is_playing: isPlaying } = data
+
+        if(!isPlaying) {
+            imageElement.setAttribute('src', gif)
+            return
+        }
+
+        const largeImage = data.item.album.images[0]
+
+        imageElement.setAttribute('src', largeImage.url)
+    }
+
+    updateImage()
+
+    const FIVE_SECONDS = 5000
+    setInterval(updateImage, FIVE_SECONDS)
+</script>
+
+<style>
+    #cover {
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+    }
+</style>
