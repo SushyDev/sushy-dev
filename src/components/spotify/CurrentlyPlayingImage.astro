@@ -4,10 +4,14 @@
     import Spotify from '../../plugins/spotify.js'
 
     const urlParams = new URLSearchParams(window.location.search)
-    const imageParam = urlParams.get('image')
+    const imageParam = urlParams.get('image') || 'https://via.placeholder.com/1x1'
 
     async function updateImage() {
         const imageElement = document.getElementById('cover')
+
+        if(!imageElement) {
+            return
+        }
 
         const data = await Spotify.currentPlayingInfo()
 
@@ -19,6 +23,11 @@
         }
 
         const largeImage = data.item.album.images[0]
+
+        if(!largeImage) {
+            imageElement.setAttribute('src', imageParam)
+            return
+        }
 
         imageElement.setAttribute('src', largeImage.url)
     }
