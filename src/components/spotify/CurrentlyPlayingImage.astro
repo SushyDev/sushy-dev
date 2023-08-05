@@ -3,10 +3,8 @@
 <script>
     import Spotify from '../../plugins/spotify.js'
 
-    // get gif from query paramers
     const urlParams = new URLSearchParams(window.location.search)
-
-    const gif = urlParams.get('gif')
+    const imageParam = urlParams.get('image')
 
     async function updateImage() {
         const imageElement = document.getElementById('cover')
@@ -16,7 +14,7 @@
         const { is_playing: isPlaying } = data
 
         if(!isPlaying) {
-            imageElement.setAttribute('src', gif)
+            imageElement.setAttribute('src', imageParam)
             return
         }
 
