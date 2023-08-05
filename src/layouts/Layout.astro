@@ -18,14 +18,16 @@ const {title} = Astro.props;
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
 	</head>
+
 	<body class="flex flex-col">
 		<slot />
+
 		<footer class="container mx-auto mt-auto p-6">
-			<!-- copyright -->
-			<p>Copyright © 2023 - All right reserved by Sniels Rolleman</p>
+			<p>Copyright © 2023 - Sushy</p>
 		</footer>
 	</body>
 </html>
+
 <style lang="scss" is:global>
 	:root {
 		--accent: 100, 160, 200;

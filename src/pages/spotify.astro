@@ -2,11 +2,23 @@
 import CurrentlyPlayingImage from '@/components/spotify/CurrentlyPlayingImage.astro'
 ---
 
-<main>
-    <div class="current-playing-image">
-        <CurrentlyPlayingImage />
-    </div>
-</main>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Currently Playing</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Currently Playing">
+        <meta name="author" content="Sushy">
+    </head>
+
+    <body>
+        <main>
+            <div class="current-playing-image">
+                <CurrentlyPlayingImage />
+            </div>
+        </main>
+    </body>
+</html>
 
 <style>
     .current-playing-image {
