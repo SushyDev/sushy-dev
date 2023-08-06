@@ -1,5 +1,6 @@
 ---
 import list from '@/assets/icon-list.json';
+import Icon from '@/components/Icon.astro';
 
 type Icon = {
     image: string;
@@ -23,16 +24,7 @@ function forEachIcon(callback: (icon: Icon) => Element) {
 <div class="icon-list-wrapper my-2">
     <div class="p-4 overflow-x-auto no-scrollbar cursor-default icon-list">
         <ul class="flex gap-4">
-            {
-                forEachIcon((icon) => {
-                    return (
-                        <li class="flex items-center min-w-max h-12 last-of-type:pr-4">
-                            <img class="h-12" width="48px" height="48px" src={icon.image} alt={icon.title} />
-                            <p class="ml-2 cursor-text">{icon.title}</p>
-                        </li>
-                    );
-                })
-            }
+            { forEachIcon((icon) => (<Icon image={icon.image} title={icon.title} />)) }
         </ul>
     </div>
 </div>
