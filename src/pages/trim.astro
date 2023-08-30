@@ -1,0 +1,159 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="I'm tired of windows photos">
+    <main class="container mx-auto p-6">
+        <div class="flex flex-wrap">
+            <div class="flex flex-col">
+                <video id="video" class="max-h-[50vh]" controls></video>
+                <p id="status"></p>
+            </div>
+
+            <form class="m-4" id="thing">
+                <div class="rounded-md border border-gray-100 bg-blue-100 p-4 w-fit">
+                    <label for="file" class="flex flex-col items-center gap-2 cursor-pointer">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 fill-blue-100 stroke-blue-600" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                    </label>
+                    <input id="file" type="file" class="hidden" accept="video/*" />
+                </div>
+
+                <div class="flex flex-col my-2">
+                    <ul>
+                        <li>
+                            <p>Start&colon;</p>
+                            <input type="radio" name="timings" value="0" id="start" checked>
+                            <label for="start">0</label>
+                        </li>
+                        <li>
+                            <p>End&colon;</p>
+                            <input type="radio" name="timings" value="0" id="end">
+                            <label for="end">0</label>
+                        </li>
+                    </ul>
+                </div>
+
+                <input type="checkbox" id="keep" value="0" checked />
+                <label for="keep">Keep encoding?</label>
+
+                <br />
+
+                <button class="mt-2 px-5 py-2.5 font-medium bg-blue-100 hover:bg-blue-200 hover:text-blue-600 text-blue-500 rounded-lg text-sm [&[disabled]]:text-blue-300 [&[disabled]]:hover:bg-blue-100" disabled type="submit">
+                    Trim
+                </button>
+            </form> 
+        </div>
+
+        <script>
+        import { FFmpeg } from '@ffmpeg/ffmpeg';
+        import { fetchFile, toBlobURL } from '@ffmpeg/util';
+
+        const form = document.getElementById('thing');
+        const video = document.getElementById('video');
+        const inputs = document.querySelectorAll('input[name="timings"]');
+        const submit = document.querySelector('button[type="submit"]');
+        const status = document.getElementById('status');
+
+        function setTiming() {
+            const input = document.querySelector('input[name="timings"]:checked');
+            input.value = video.currentTime;
+
+            const label = document.querySelector(`label[for="${input.id}"]`);
+            label.innerText = video.currentTime;
+        }
+
+        function resetTiming() {
+            inputs.forEach(input => {
+                input.value = 0;
+                const label = document.querySelector(`label[for="${input.id}"]`);
+                label.innerText = 0;
+            });
+        }
+
+        function clearVideo() {
+            video.src = '';
+        }
+
+        async function getFfmpeg() {
+            const instance = new FFmpeg();
+            const baseURL = 'https://unpkg.com/@ffmpeg/core/dist/esm'
+
+            await instance.load({
+                coreURL: await toBlobURL(`${baseURL}/ffmpeg-core.js`, 'text/javascript'),
+                wasmURL: await toBlobURL(`${baseURL}/ffmpeg-core.wasm`, 'application/wasm'),
+                workerURL: await toBlobURL(`${baseURL}/ffmpeg-core.worker.js`, 'text/javascript'),
+            });
+
+            console.info('FFmpeg loaded');
+            
+            return instance;
+        }
+
+        const ffmpeg = await getFfmpeg();
+
+        submit.removeAttribute('disabled');
+
+        ffmpeg.on('progress', ({ progress, time }) => {
+            status.innerText = `Progress: ${(progress * 100).toFixed(2)}% Time: ${time}`;
+        });
+
+        async function trimVideo(event) {
+            event.preventDefault();
+
+            const { value: start } = document.querySelector('input#start');
+            const { value: end } = document.querySelector('input#end');
+
+            if (+start === +end || +end < +start) {
+                const message = 'Start and end must be different and end must be greater than start';
+                alert(message);
+                throw new Error(message);
+            }
+
+            submit.setAttribute('disabled', true);
+
+            const { checked: keep } = document.querySelector('input#keep')
+            const args = keep ? ['-map', '0', '-c', 'copy'] : [];
+
+            try {
+                const [file] = form.file.files;
+
+                const { name } = file;
+                const outName = `out_${name}`;
+
+                await ffmpeg.writeFile(file.name, await fetchFile(file));
+                await ffmpeg.exec(['-i', file.name, '-ss', start, '-to', end, outName, ...args]);
+                const output = await ffmpeg.readFile(outName);
+                const newFile = new File([output.buffer], outName, file);
+
+                console.log(newFile)
+                
+                video.currentTime = 0;
+                video.src = URL.createObjectURL(newFile);
+            } catch (error) {
+                console.error(error);
+            } finally {
+                resetTiming();
+
+                submit.removeAttribute('disabled');
+            }
+        }
+
+        function previewVideo(event) {
+            const [file] = form.file.files;
+            const { name } = file;
+
+            const url = URL.createObjectURL(file);
+
+            document.getElementById('video').src = url;
+        }
+
+        form.addEventListener('submit', trimVideo);
+        form.querySelector('#file').addEventListener('input', previewVideo);
+
+        video.addEventListener('seeked', setTiming);
+        video.addEventListener('pause', setTiming);
+        </script>
+    </main>
+</Layout>
