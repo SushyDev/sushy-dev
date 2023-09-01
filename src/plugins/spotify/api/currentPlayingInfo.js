@@ -1,7 +1,4 @@
-import {
-  getAccessAndRefreshTokens,
-  refreshAccessAndRefreshTokens,
-} from '../auth/accessAndRefreshTokens.mjs'
+import AccessAndRefreshTokens from '../auth/accessAndRefreshTokens.js'
 
 const defaultReturnObject = {
   spotifyClosed: true,
@@ -9,7 +6,7 @@ const defaultReturnObject = {
 }
 
 export async function currentPlayingInfo() {
-  const { accessToken } = await getAccessAndRefreshTokens()
+  const { accessToken } = await AccessAndRefreshTokens.get()
   if (!accessToken) return
 
   const endpoint = 'https://api.spotify.com/v1/me/player'
@@ -30,7 +27,7 @@ export async function currentPlayingInfo() {
   const data = await response.json()
 
   if (data.error && data.error.status === 401) {
-    await refreshAccessAndRefreshTokens()
+    await AccessAndRefreshTokens.refresh()
     return defaultReturnObject
   }
 
