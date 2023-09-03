@@ -1,7 +1,9 @@
 const mainCanvas = document.getElementById('background');
+const DOWNSCALE = 2;
 
 async function startBackground() {
     const loaded = document.body.classList.contains('loaded');
+
     if (loaded) return;
 
     const Renderer = await import('@/plugins/three-background/renderer.js?worker');
@@ -24,8 +26,8 @@ async function startBackground() {
     function onWindowResize() {
         shaderWorker.postMessage({
             message: 'resize',
-            width: window.innerWidth,
-            height: window.innerHeight,
+            width: window.innerWidth / DOWNSCALE,
+            height: window.innerHeight / DOWNSCALE,
         })
     }
 
@@ -38,8 +40,8 @@ async function startBackground() {
             message: 'init',
             canvas: offscreen,
             ratio: window.devicePixelRatio,
-            width: mainCanvas.width,
-            height: mainCanvas.height,
+            width: mainCanvas.width / DOWNSCALE,
+            height: mainCanvas.height / DOWNSCALE,
         }, [offscreen])
 
         window.addEventListener('resize', onWindowResize);
