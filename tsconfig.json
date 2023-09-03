@@ -3,7 +3,9 @@
     "compilerOptions": {
         "baseUrl": ".",
         "paths": {
-            "@/*": ["src/*"]
+            "@/*": ["src/*"],
+            "@spotify/*": ["src/plugins/spotify/*"],
+            "@ffmpeg-wasm/*": ["src/plugins/ffmpeg-wasm/*"]
         }
     }
 }

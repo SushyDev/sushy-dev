@@ -1,11 +1,11 @@
-import AccessAndRefreshTokens from '../auth/accessAndRefreshTokens.js'
+import AccessAndRefreshTokens from '@spotify/auth/accessAndRefreshTokens.js'
 
 const defaultReturnObject = {
   spotifyClosed: true,
   authenticated: false,
 }
 
-export async function currentPlayingInfo() {
+export default async function() {
   const { accessToken } = await AccessAndRefreshTokens.get()
   if (!accessToken) return
 

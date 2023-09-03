@@ -40,15 +40,14 @@ import Layout from '../layouts/Layout.astro';
 
                 <br />
 
-                <button class="mt-2 px-5 py-2.5 font-medium bg-blue-100 hover:bg-blue-200 hover:text-blue-600 text-blue-500 rounded-lg text-sm [&[disabled]]:text-blue-300 [&[disabled]]:hover:bg-blue-100" disabled type="submit">
+                <button class="mt-2 px-5 py-2.5 font-medium bg-blue-100 hover:bg-blue-200 hover:text-blue-600 text-blue-500 rounded-lg text-sm [&[disabled]]:text-blue-300 [&[disabled]]:hover:bg-blue-100" type="submit">
                     Trim
                 </button>
             </form> 
         </div>
 
         <script>
-        import { FFmpeg } from '@ffmpeg/ffmpeg';
-        import { fetchFile, toBlobURL } from '@ffmpeg/util';
+        import trim from '@ffmpeg-wasm/methods/trim.js'
 
         const form = document.getElementById('thing');
         const video = document.getElementById('video');
@@ -72,74 +71,33 @@ import Layout from '../layouts/Layout.astro';
             });
         }
 
-        function clearVideo() {
-            video.src = '';
-        }
-
-        async function getFfmpeg() {
-            const instance = new FFmpeg();
-            const baseURL = 'https://unpkg.com/@ffmpeg/core/dist/esm'
-
-            await instance.load({
-                coreURL: await toBlobURL(`${baseURL}/ffmpeg-core.js`, 'text/javascript'),
-                wasmURL: await toBlobURL(`${baseURL}/ffmpeg-core.wasm`, 'application/wasm'),
-            });
-
-            console.info('FFmpeg loaded');
-            
-            return instance;
-        }
-
-        const ffmpeg = await getFfmpeg();
-
-        submit.removeAttribute('disabled');
-
-        ffmpeg.on('progress', ({ progress, time }) => {
-            status.innerText = `Progress: ${(progress * 100).toFixed(2)}% Time: ${time}`;
-        });
-
         async function trimVideo(event) {
             event.preventDefault();
 
             const { value: start } = document.querySelector('input#start');
             const { value: end } = document.querySelector('input#end');
 
-            if (+start === +end || +end < +start) {
-                const message = 'Start and end must be different and end must be greater than start';
-                alert(message);
-                throw new Error(message);
-            }
-
             submit.setAttribute('disabled', true);
 
-            const { checked: keep } = document.querySelector('input#keep')
-            const args = keep ? ['-map', '0', '-c', 'copy'] : [];
+            const [file] = form.file.files;
+            const keep = form.keep.checked;
 
             try {
-                const [file] = form.file.files;
-
-                const { name } = file;
-                const outName = `out_${name}`;
-
-                await ffmpeg.writeFile(file.name, await fetchFile(file));
-                await ffmpeg.exec(['-i', file.name, '-ss', start, '-to', end, outName, ...args]);
-                const output = await ffmpeg.readFile(outName);
-                const newFile = new File([output.buffer], outName, file);
-
-                console.log(newFile)
-                
-                video.currentTime = 0;
-                video.src = URL.createObjectURL(newFile);
+                const trimmedFile = await trim(file, start, end, keep);
+                const url = URL.createObjectURL(trimmedFile);
             } catch (error) {
                 console.error(error);
+                alert(error);
             } finally {
-                resetTiming();
+                video.currentTime = 0;
+                video.src = url;
 
+                resetTiming();
                 submit.removeAttribute('disabled');
             }
         }
 
-        function previewVideo(event) {
+        function previewVideo() {
             const [file] = form.file.files;
             const { name } = file;
 
@@ -148,11 +106,12 @@ import Layout from '../layouts/Layout.astro';
             document.getElementById('video').src = url;
         }
 
-        form.addEventListener('submit', trimVideo);
         form.querySelector('#file').addEventListener('input', previewVideo);
 
         video.addEventListener('seeked', setTiming);
         video.addEventListener('pause', setTiming);
+
+        form.addEventListener('submit', trimVideo);
         </script>
     </main>
 </Layout>

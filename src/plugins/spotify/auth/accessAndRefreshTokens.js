@@ -1,6 +1,6 @@
-import { clientId, redirectUri } from '../config.js'
-import CodeVerifier from './codeVerifier.js'
-import AuthToken from './authToken.js'
+import { clientId, redirectUri } from '@spotify/config.js'
+import CodeVerifier from '@spotify/auth/codeVerifier.js'
+import AuthToken from '@spotify/auth/authToken.js'
 
 export default class AccessAndRefreshTokens {
   static handleResponse({

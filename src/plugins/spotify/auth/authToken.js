@@ -1,5 +1,5 @@
-import { clientId, redirectUri, scopes } from '../config.js'
-import CodeVerifier from './codeVerifier.js'
+import { clientId, redirectUri, scopes } from '@spotify/config.js'
+import CodeVerifier from '@spotify/auth/codeVerifier.js'
 
 export default class AuthToken {
   static async fetch() {
