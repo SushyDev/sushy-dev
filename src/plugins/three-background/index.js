@@ -1,10 +1,11 @@
 const mainCanvas = document.getElementById('background');
 
-function startBackground() {
+async function startBackground() {
     const loaded = document.body.classList.contains('loaded');
     if (loaded) return;
 
-    const shaderWorker = new Worker('src/plugins/three-background/renderer.js', { type: 'module' });
+    const Renderer = await import('@/plugins/three-background/renderer.js?worker');
+    const shaderWorker = new Renderer.default();
 
     shaderWorker.onmessage = ({ data }) => {
         const { message } = data;
