@@ -16,21 +16,17 @@ const { title } = Astro.props;
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={ Astro.generator } />
-		<script is:inline src="https://cdn.jsdelivr.net/npm/three@latest/build/three.min.js" ></script>
-		<script is:inline src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.clouds2.min.js" ></script>
+		<script src="src/plugins/test.js"></script>
 		<title>{ title }</title>
 	</head>
 
-	<body class="flex flex-col">
+	<body class="flex flex-col bg-black">
 		<slot />
 
 		<footer class="container mx-auto mt-auto p-6">
 			<p>Copyright © 2023 - Sushy</p>
 		</footer>
 	</body>
-	<script is:inline>
-		VANTA.CLOUDS2({ el: 'body', texturePath: '/noise.png' })
-	</script>
 </html>
 
 <style lang="scss">
