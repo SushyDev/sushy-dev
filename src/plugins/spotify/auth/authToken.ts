@@ -2,7 +2,7 @@ import { clientId, redirectUri, scopes } from '@spotify/config.js'
 import CodeVerifier from '@spotify/auth/codeVerifier.js'
 
 export default class AuthToken {
-  static async fetch() {
+  static async fetch(): Promise<void> {
     const codeChallenge = await CodeVerifier.generateCodeChallenge();
 
     const queryParams = new URLSearchParams({
@@ -19,14 +19,15 @@ export default class AuthToken {
     window.location.href = authUrl
   }
 
-  static get() {
+  static get(): string|void {
     // Check for localstorage
     const authToken = localStorage.getItem('authToken')
     if (authToken) return authToken
 
     // Check for url params
     const urlParams = new URLSearchParams(window.location.search)
-    if (urlParams.has('code')) return urlParams.get('code')
+    const code = urlParams.get('code')
+    if (code) return code
 
     AuthToken.fetch()
   }

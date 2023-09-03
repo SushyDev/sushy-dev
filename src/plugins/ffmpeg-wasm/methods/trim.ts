@@ -1,7 +1,7 @@
 import getFFmpeg from '@ffmpeg-wasm/core'
 import { fetchFile } from '@ffmpeg/util';
 
-export default async function (file, start, end, keep = false) {
+export default async function (file: File, start: string, end: string, keep = false): Promise<File> {
     if (+start === +end || +end < +start) {
         throw new Error('Start and end must be different and end must be greater than start');
     }
@@ -17,5 +17,5 @@ export default async function (file, start, end, keep = false) {
     await ffmpeg.exec(['-i', file.name, '-ss', start, '-to', end, outName, ...args]);
     const output = await ffmpeg.readFile(outName);
 
-    return new File([output.buffer], outName, file);
+    return new File([output], outName, file);
 }

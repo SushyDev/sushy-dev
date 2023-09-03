@@ -85,13 +85,13 @@ import Layout from '../layouts/Layout.astro';
             try {
                 const trimmedFile = await trim(file, start, end, keep);
                 const url = URL.createObjectURL(trimmedFile);
+
+                video.currentTime = 0;
+                video.src = url;
             } catch (error) {
                 console.error(error);
                 alert(error);
             } finally {
-                video.currentTime = 0;
-                video.src = url;
-
                 resetTiming();
                 submit.removeAttribute('disabled');
             }

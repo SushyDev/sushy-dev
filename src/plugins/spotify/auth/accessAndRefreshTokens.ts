@@ -2,12 +2,23 @@ import { clientId, redirectUri } from '@spotify/config.js'
 import CodeVerifier from '@spotify/auth/codeVerifier.js'
 import AuthToken from '@spotify/auth/authToken.js'
 
+interface ApiResponse {
+  access_token: string
+  refresh_token: string
+  error: string
+}
+
+interface Tokens {
+  accessToken: string
+  refreshToken: string
+}
+
 export default class AccessAndRefreshTokens {
   static handleResponse({
     access_token: accessToken,
     refresh_token: refreshToken,
     error,
-  }) {
+  }: ApiResponse): Tokens {
     setTimeout(() => {
       const url = new URL(window.location.href)
       url.searchParams.delete('code')
@@ -29,7 +40,11 @@ export default class AccessAndRefreshTokens {
     }
   }
 
-  async handle({ access_token: accessToken, refresh_token: refreshToken, error }) {
+  async handle({
+    access_token: accessToken,
+    refresh_token: refreshToken,
+    error
+  }: ApiResponse): Promise<Tokens> {
     setTimeout(() => {
       const url = new URL(window.location.href)
       url.searchParams.delete('code')
@@ -43,7 +58,7 @@ export default class AccessAndRefreshTokens {
       throw new Error(error)
     }
 
-    if (typeof accessToken !== 'string' || typeof refreshToken !== 'string') {
+    if (typeof accessToken !== 'string' ||typeof refreshToken !== 'string') {
       throw new Error('Access and refresh tokens must be strings')
     }
 
@@ -53,11 +68,11 @@ export default class AccessAndRefreshTokens {
     return { accessToken, refreshToken }
   }
 
-  static async fetch() {
+  static async fetch(): Promise<Tokens> {
     const codeVerifier = CodeVerifier.get()
     const authToken = AuthToken.get()
 
-    if (!authToken) return
+    if (!authToken) throw new Error('No auth token found')
 
     const tokenEndpoint = 'https://accounts.spotify.com/api/token'
 
@@ -81,20 +96,18 @@ export default class AccessAndRefreshTokens {
     return AccessAndRefreshTokens.handleResponse(data)
   }
 
-  static async get() {
+  static async get(): Promise<Tokens> {
     const accessToken = localStorage.getItem('accessToken')
     const refreshToken = localStorage.getItem('refreshToken')
 
     if (accessToken && refreshToken) return { accessToken, refreshToken }
 
-    const tokens = await this.fetch()
-    const empty = { accessToken: null, refreshToken: null }
-
-    return tokens ?? empty
+    return this.fetch();
   }
 
-  static async refresh() {
+  static async refresh(): Promise<Tokens> {
     const { refreshToken } = await this.get()
+
     if (!refreshToken) throw new Error('No refresh token found')
 
     console.info('Refreshing access token')
@@ -121,9 +134,9 @@ export default class AccessAndRefreshTokens {
 }
 
 // Refresh access token every 50 minutes
-setInterval(async () => {
+setInterval(() => {
   try {
-    await AccessAndRefreshTokens.refresh()
+    AccessAndRefreshTokens.refresh()
   } catch (error) {
     console.error(error)
   }

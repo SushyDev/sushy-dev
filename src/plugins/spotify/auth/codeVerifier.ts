@@ -1,15 +1,15 @@
 import { Buffer } from 'buffer'
 
 export default class CodeVerifier {
-  static #base64encode(string) {
-    return Buffer.from(string, 'utf-8')
+  static #base64encode(arrayBuffer: ArrayBuffer): string {
+    return new Buffer(arrayBuffer)
       .toString('base64')
       .replace(/\+/g, '-')
       .replace(/\//g, '_')
       .replace(/=+$/, '')
   }
 
-  static #generateRandomString(length) {
+  static #generateRandomString(length: number): string {
     const uppercaseLetters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
     const lowercaseLetters = 'abcdefghijklmnopqrstuvwxyz'
     const numbers = '0123456789'
@@ -24,7 +24,7 @@ export default class CodeVerifier {
     return randomString
   }
 
-  static get() {
+  static get(): string {
     const codeVerifier = localStorage.getItem('codeVerifier')
     if (codeVerifier) return codeVerifier
 
@@ -36,7 +36,7 @@ export default class CodeVerifier {
     return newCodeVerifier
   }
 
-  static async generateCodeChallenge() {
+  static async generateCodeChallenge(): Promise<string> {
     const string = CodeVerifier.get()
 
     const encoder = new TextEncoder()
