@@ -39,7 +39,7 @@ async function startBackground() {
         shaderWorker.postMessage({
             message: 'init',
             canvas: offscreen,
-            ratio: window.devicePixelRatio,
+            ratio: 2,
             width: mainCanvas.width / DOWNSCALE,
             height: mainCanvas.height / DOWNSCALE,
         }, [offscreen])
