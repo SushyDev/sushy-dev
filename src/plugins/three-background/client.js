@@ -1,5 +1,5 @@
-const Renderer = await import('@/plugins/three-background/renderer.js?worker');
-const shaderWorker = new Renderer.default();
+import Renderer from './renderer.js?worker';
+const shaderWorker = new Renderer();
 
 const mainCanvas = document.getElementById('background');
 const DOWNSCALE = 2;
