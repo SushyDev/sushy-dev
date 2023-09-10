@@ -11,7 +11,7 @@ uniform vec3 lightColor;
 
 void main(){
     vec2 coord = gl_FragCoord.xy;
-    vec4 p, d = vec4(0.8, 0, coord / iResolution.y - 0.65);
+    vec4 p, d = vec4(1.0, 0, coord / iResolution.y - 0.5);
     vec3 out1 = skyColor - d.w; // sky gradient
     float s, f, t = 200.0 + sin(dot(coord,coord));
     const float MAX_ITER = 100.0;
@@ -20,13 +20,12 @@ void main(){
       p = 0.05 * t * d;
       p.xz += iTime * 0.50000 * speed; // movement through space
       p.x += sin(iTime * 0.25 * speed) * 0.25;
-      s = 2.0;
+      s = 2.25;
       f = p.w + 1.0-T-T-T-T;
-      // f = p.w + 1.0 - 0.25*noise(p.xyz * 2.0) - 0.25*noise(p.zxy * 2.01) - 0.25*noise(p.yzx * 2.03);
       if (f < 0.0) {
         vec3 cloudColorShading = mix(lightColor, cloudColor, -f);
-        out1 = mix(out1, cloudColorShading, -f * 0.4);
+        out1 = mix(out1, cloudColorShading, -f * 0.3);
       }
     }
-    gl_FragColor = vec4(out1, 1.0);
+    gl_FragColor = vec4(out1, 1);
 }

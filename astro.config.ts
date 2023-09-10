@@ -6,6 +6,7 @@ export default defineConfig({
     integrations: [
         tailwind({
             configFile: 'tailwind.config.ts',
+            applyBaseStyles: false,
         }),
     ],
     vite: {

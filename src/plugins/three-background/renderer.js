@@ -12,17 +12,19 @@ const noiseTexture = new THREE.CanvasTexture(imageBitmap);
 
 const geometry = new THREE.PlaneGeometry(2, 2);
 
+const uniforms = {
+    iResolution: { value: new THREE.Vector2() },
+    iMouse: { value: new THREE.Vector2() },
+    iTime: { value: 0 },
+    iTex: { value: noiseTexture },
+    speed: { value: 3.33 },
+    skyColor: { value: new THREE.Vector3(0.17,0.35,0.50) },
+    cloudColor: { value: new THREE.Vector3(0.05,0.12,0.30) },
+    lightColor: { value: new THREE.Vector3(1.00, 1.00, 1.00) },
+}
+
 const material = new THREE.ShaderMaterial({
-    uniforms: {
-        iResolution: { value: new THREE.Vector2() },
-        iMouse: { value: new THREE.Vector2() },
-        iTime: { value: 0 },
-        iTex: { value: noiseTexture },
-        speed: { value: 1.0 },
-        skyColor: { value: new THREE.Vector3(0.173,0.365,0.502) },
-        cloudColor: { value: new THREE.Vector3(0.051,0.122,0.306) },
-        lightColor: { value: new THREE.Vector3(1.0, 1.0, 1.0) },
-    },
+    uniforms,
     fragmentShader,
 });
 
