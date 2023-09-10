@@ -7,7 +7,7 @@ const camera = new THREE.Camera();
 scene.add(camera);
 
 const loader = new THREE.ImageBitmapLoader();
-const imageBitmap = await new Promise((resolve => { loader.load('/noise.png', resolve) }))
+const imageBitmap = await new Promise((resolve => { loader.load('/noise.webp', resolve) }))
 const noiseTexture = new THREE.CanvasTexture(imageBitmap);
 
 const geometry = new THREE.PlaneGeometry(2, 2);
