@@ -1,5 +1,5 @@
 ---
-import list from '@/assets/icon-list.json';
+import list from '@/assets/icons.json';
 import Icon from '@/components/Icon.astro';
 
 type Icon = {
@@ -11,14 +11,23 @@ type Icons = {
     [key: string]: Icon[];
 };
 
-function forEachIcon(callback: (icon: Icon) => Element) {
+const images = await import.meta.glob('/src/assets/icons/*.svg', { as: 'raw' });
+
+async function forEachIcon(callback: (icon: Icon) => Element) {
     const iconsList: Icons = list;
 
     const categoryKeys = Object.keys(iconsList);
     const categories = categoryKeys.map((key) => iconsList[key]);
 
+    for await (const category of categories) {
+        for await (const icon of category) {
+            icon.image = await images[icon.image]()
+        }
+    }
+
     return categories.map((category) => category.map(callback));
 }
+
 ---
 
 <div class="icon-list-wrapper my-2">
@@ -35,6 +44,7 @@ function forEachIcon(callback: (icon: Icon) => Element) {
         border-radius: 0.6rem;
         background-size: 0%;
         background-repeat: no-repeat;
+        position: relative;
     }
 
     .icon-list-wrapper:hover {
@@ -42,6 +52,19 @@ function forEachIcon(callback: (icon: Icon) => Element) {
         animation: pulse-in 0.5s ease-in-out;
         animation-play-state: running;
         background-size: 400%;
+    }
+
+    .icon-list-wrapper:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border-radius: calc(0.6rem - 0.25rem);
+        margin: 0.25rem;
+        box-shadow: inset 10px 0 20px 0 black, inset -10px 0 20px 0 black;
+        pointer-events: none;
     }
 
     @keyframes pulse-in {
@@ -63,7 +86,7 @@ function forEachIcon(callback: (icon: Icon) => Element) {
     }
 
     .icon-list {
-        background-color: white;
+        background-color: black;
         border-radius: calc(0.6rem - 0.25rem);
         box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
     }
