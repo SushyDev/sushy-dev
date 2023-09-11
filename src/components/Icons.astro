@@ -21,7 +21,9 @@ async function forEachIcon(callback: (icon: Icon) => Element) {
 
     for await (const category of categories) {
         for await (const icon of category) {
-            icon.image = await images[icon.image]()
+            try {
+                icon.image = await images[icon.image]()
+            } catch {}
         }
     }
 
