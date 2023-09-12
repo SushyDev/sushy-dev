@@ -1,12 +1,12 @@
-import { Buffer } from 'buffer'
-
 export default class CodeVerifier {
   static #base64encode(arrayBuffer: ArrayBuffer): string {
-    return new Buffer(arrayBuffer)
-      .toString('base64')
+    const uint8Array = new Uint8Array(arrayBuffer)
+    const string = String.fromCharCode(...uint8Array)
+
+    return btoa(string)
       .replace(/\+/g, '-')
       .replace(/\//g, '_')
-      .replace(/=+$/, '')
+      .replace(/=+$/, '');
   }
 
   static #generateRandomString(length: number): string {
