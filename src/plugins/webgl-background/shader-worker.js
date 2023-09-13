@@ -1,10 +1,15 @@
 import fragmentShader from './fragment.glsl?raw';
 import vertexShader from './vertex.glsl?raw';
 
+const FPS = 30;
+const FRAME_DELAY = 1000
+const FRAME_TIME = FRAME_DELAY / FPS;
+
 class Renderer {
     constructor(canvas, texture, width, height, vertexShader, fragmentShader) {
         // State
         this.paused = false;
+        this.lastTime = 0;
 
         // WebGL2
         this.canvas = canvas;
@@ -15,6 +20,7 @@ class Renderer {
 
         const program = this.createProgram(vertexShader, fragmentShader);
         this.program = program;
+        gl.useProgram(program);
 
         // Uniforms
         this.resolution = gl.getUniformLocation(program, "iResolution");
@@ -25,21 +31,17 @@ class Renderer {
         this.lightColor = gl.getUniformLocation(program, "lightColor");
 
         // Setup
-        gl.useProgram(program);
-
         this.setPosition();
         this.setSize(width, height);
         this.setTexture(texture);
         this.setUniforms();
-
-        // Render
         this.render();
     }
 
     setSize(width, height) {
         const { gl, resolution } = this;
 
-        gl.uniform2f(resolution, width, height);
+        gl.uniform2f(resolution, width / 2, height / 2);
         gl.viewport(0, 0, width, height);
         gl.canvas.width = width;
         gl.canvas.height = height;
@@ -65,7 +67,6 @@ class Renderer {
         const positionAttributeLocation = gl.getAttribLocation(program, "a_position");
         gl.enableVertexAttribArray(positionAttributeLocation);
         gl.vertexAttribPointer(positionAttributeLocation, 2, gl.FLOAT, false, 0, 0);
-
     }
 
     setTexture(image) {
@@ -127,10 +128,12 @@ class Renderer {
 
         if (this.paused) return;
 
-        const { gl, time } = this;
-        const newTime = performance.now() / 1000;
-        gl.uniform1f(time, newTime);
-        gl.drawArrays(gl.TRIANGLES, 0, 6);
+        const time = new Date().getTime();
+        if(time - this.lastTime < FRAME_TIME) return;
+        this.lastTime = time;
+
+        this.gl.uniform1f(this.time, performance.now() / FRAME_DELAY);
+        this.gl.drawArrays(this.gl.TRIANGLES, 0, 6);
     }
 }
 
