@@ -19,14 +19,9 @@ function onVisibilityChange() {
 
 const offscreen = mainCanvas.transferControlToOffscreen();
 
-const response = await fetch('/noise.webp');
-const blob = await response.blob();
-const bitmap = await createImageBitmap(blob);
-
 shaderWorker.postMessage({
     message: 'initialize',
     canvas: offscreen,
-    texture: bitmap,
     width: window.innerWidth,
     height: window.innerHeight,
 }, [offscreen])

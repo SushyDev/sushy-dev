@@ -6,7 +6,7 @@ const FRAME_DELAY = 1000
 const FRAME_TIME = FRAME_DELAY / FPS;
 
 class Renderer {
-    constructor(canvas, texture, width, height, vertexShader, fragmentShader) {
+    constructor(canvas, width, height, vertexShader, fragmentShader) {
         // State
         this.paused = false;
         this.lastTime = 0;
@@ -33,7 +33,6 @@ class Renderer {
         // Setup
         this.setPosition();
         this.setSize(width, height);
-        this.setTexture(texture);
         this.setUniforms();
         this.render();
     }
@@ -67,15 +66,6 @@ class Renderer {
         const positionAttributeLocation = gl.getAttribLocation(program, "a_position");
         gl.enableVertexAttribArray(positionAttributeLocation);
         gl.vertexAttribPointer(positionAttributeLocation, 2, gl.FLOAT, false, 0, 0);
-    }
-
-    setTexture(image) {
-        const { gl } = this;
-
-        const texture = gl.createTexture();
-        gl.bindTexture(gl.TEXTURE_2D, texture);
-        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
-        gl.generateMipmap(gl.TEXTURE_2D);
     }
 
     setUniforms() {
@@ -142,8 +132,8 @@ self.addEventListener('message', ({ data }) => {
 
     switch (message) {
         case 'initialize': {
-            const { canvas, texture, width, height } = data;
-            self.renderer = new Renderer(canvas, texture, width, height, vertexShader, fragmentShader);
+            const { canvas, width, height } = data;
+            self.renderer = new Renderer(canvas, width, height, vertexShader, fragmentShader);
             break;
         }
         case 'resize': {
