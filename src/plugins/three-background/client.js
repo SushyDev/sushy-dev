@@ -1,28 +1,13 @@
-import Renderer from './renderer.js?worker';
-const shaderWorker = new Renderer();
+import ShaderWorker from './shader-worker?worker';
+const shaderWorker = new ShaderWorker();
 
 const mainCanvas = document.getElementById('background');
-const DOWNSCALE = 2;
-
-shaderWorker.onmessage = ({ data }) => {
-    const { message } = data;
-
-    switch (message) {
-        case 'loaded':
-            onLoad()
-            break;
-        case 'drawing':
-            mainCanvas.classList.add('drawing')
-            break;
-
-    }
-}
 
 function onResize() {
     shaderWorker.postMessage({
         message: 'resize',
-        width: window.innerWidth / DOWNSCALE,
-        height: window.innerHeight / DOWNSCALE,
+        width: window.innerWidth,
+        height: window.innerHeight,
     })
 }
 
@@ -32,17 +17,21 @@ function onVisibilityChange() {
     });
 }
 
-function onLoad() {
-    const offscreen = mainCanvas.transferControlToOffscreen();
+const offscreen = mainCanvas.transferControlToOffscreen();
 
-    shaderWorker.postMessage({
-        message: 'initialize',
-        canvas: offscreen,
-        ratio: 2,
-        width: window.innerWidth / DOWNSCALE,
-        height: window.innerHeight / DOWNSCALE,
-    }, [offscreen])
+const response = await fetch('/noise.webp');
+const blob = await response.blob();
+const bitmap = await createImageBitmap(blob);
 
-    window.addEventListener('resize', onResize);
-    document.addEventListener('visibilitychange', onVisibilityChange);
-}
+shaderWorker.postMessage({
+    message: 'initialize',
+    canvas: offscreen,
+    texture: bitmap,
+    width: window.innerWidth,
+    height: window.innerHeight,
+}, [offscreen])
+
+mainCanvas.classList.add('drawing');
+
+window.addEventListener('resize', onResize);
+document.addEventListener('visibilitychange', onVisibilityChange);

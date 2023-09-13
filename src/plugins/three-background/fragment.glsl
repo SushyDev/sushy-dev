@@ -1,3 +1,4 @@
+precision highp float;
 uniform vec2 iResolution;
 uniform vec2 iMouse;
 uniform float iTime;
@@ -6,9 +7,7 @@ uniform float speed;
 uniform vec3 skyColor;
 uniform vec3 cloudColor;
 uniform vec3 lightColor;
-
 # define T texture2D(iTex, fract((s*p.zw + ceil(s*p.x)) / 200.0)).y / (s += s) * 4.0
-
 void main(){
     vec2 coord = gl_FragCoord.xy;
     vec4 p, d = vec4(1.0, 0, coord / iResolution.y - 0.5);
