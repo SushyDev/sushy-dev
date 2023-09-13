@@ -1,34 +1,45 @@
-import * as THREE from 'three';
+import { 
+    Scene,
+    Camera,
+    ImageBitmapLoader,
+    CanvasTexture,
+    PlaneGeometry,
+    Vector2,
+    Vector3,
+    ShaderMaterial,
+    Mesh,
+    WebGLRenderer,
+} from 'three';
 import fragmentShader from './shader.frag?raw';
 
-const scene = new THREE.Scene();
+const scene = new Scene();
 
-const camera = new THREE.Camera();
+const camera = new Camera();
 scene.add(camera);
 
-const loader = new THREE.ImageBitmapLoader();
+const loader = new ImageBitmapLoader();
 const imageBitmap = await new Promise((resolve => { loader.load('/noise.webp', resolve) }))
-const noiseTexture = new THREE.CanvasTexture(imageBitmap);
+const noiseTexture = new CanvasTexture(imageBitmap);
 
-const geometry = new THREE.PlaneGeometry(2, 2);
+const geometry = new PlaneGeometry(2, 2);
 
 const uniforms = {
-    iResolution: { value: new THREE.Vector2() },
-    iMouse: { value: new THREE.Vector2() },
+    iResolution: { value: new Vector2() },
+    iMouse: { value: new Vector2() },
     iTime: { value: 0 },
     iTex: { value: noiseTexture },
     speed: { value: 3.33 },
-    skyColor: { value: new THREE.Vector3(0.17,0.35,0.50) },
-    cloudColor: { value: new THREE.Vector3(0.05,0.12,0.30) },
-    lightColor: { value: new THREE.Vector3(1.00, 1.00, 1.00) },
+    skyColor: { value: new Vector3(0.17,0.35,0.50) },
+    cloudColor: { value: new Vector3(0.05,0.12,0.30) },
+    lightColor: { value: new Vector3(1.00, 1.00, 1.00) },
 }
 
-const material = new THREE.ShaderMaterial({
+const material = new ShaderMaterial({
     uniforms,
     fragmentShader,
 });
 
-const mesh = new THREE.Mesh(geometry, material);
+const mesh = new Mesh(geometry, material);
 scene.add(mesh);
 
 const state = { paused: false };
@@ -36,7 +47,7 @@ const state = { paused: false };
 self.postMessage({ message: 'loaded' });
 
 function initialize(canvas, ratio, width, height) {
-    self.renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, canvas });
+    self.renderer = new WebGLRenderer({ alpha: true, antialias: true, canvas });
     self.renderer.setPixelRatio(ratio);
 
     resize(width, height);
