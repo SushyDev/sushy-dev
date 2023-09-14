@@ -23,12 +23,12 @@ class Renderer {
         gl.useProgram(program);
 
         // Uniforms
-        this.resolution = gl.getUniformLocation(program, "iResolution");
+        this.resolution = gl.getUniformLocation(program, "iRes");
         this.time = gl.getUniformLocation(program, "iTime");
-        this.speed = gl.getUniformLocation(program, "speed");
-        this.skyColor = gl.getUniformLocation(program, "skyColor");
-        this.cloudColor = gl.getUniformLocation(program, "cloudColor");
-        this.lightColor = gl.getUniformLocation(program, "lightColor");
+        this.speed = gl.getUniformLocation(program, "spd");
+        this.skyColor = gl.getUniformLocation(program, "sC");
+        this.cloudColor = gl.getUniformLocation(program, "cC");
+        this.lightColor = gl.getUniformLocation(program, "lC");
 
         // Setup
         this.setPosition();
