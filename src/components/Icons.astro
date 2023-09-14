@@ -32,8 +32,8 @@ async function forEachIcon(callback: (icon: Icon) => Element) {
 
 ---
 
-<div class="icon-list-wrapper my-2">
-    <div class="p-4 overflow-x-auto no-scrollbar cursor-default icon-list">
+<div class="icon-list p-1 rounded-lg bg-no-repeat hover:bg-accent-gradient hover:bg-400%">
+    <div class="p-4 overflow-x-auto no-scrollbar cursor-default bg-black rounded-md shadow-md">
         <ul class="flex gap-4">
             { forEachIcon((icon) => (<Icon image={icon.image} title={icon.title} />)) }
         </ul>
@@ -41,52 +41,16 @@ async function forEachIcon(callback: (icon: Icon) => Element) {
 </div>
 
 <style>
-    .icon-list-wrapper {
-        padding: 0.25rem;
-        border-radius: 0.6rem;
+@keyframes pulse-in {
+    0% {
         background-size: 0%;
-        background-repeat: no-repeat;
-        position: relative;
     }
-
-    .icon-list-wrapper:hover {
-        background-image: var(--accent-gradient);
-        animation: pulse-in 0.5s ease-in-out;
-        animation-play-state: running;
+    100% {
         background-size: 400%;
     }
+}
 
-    .icon-list-wrapper:before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        border-radius: calc(0.6rem - 0.25rem);
-        margin: 0.25rem;
-        box-shadow: inset 10px 0 20px 0 black, inset -10px 0 20px 0 black;
-        pointer-events: none;
-    }
-
-    @keyframes pulse-in {
-        0% {
-            background-size: 0%;
-        }
-        100% {
-            background-size: 400%;
-        }
-    }
-
-    @keyframes pulse-out {
-        0% {
-            background-size: 400%;
-        }
-        100% {
-            background-size: 0%;
-        }
-    }
-
-    .icon-list {
-        background-color: black;
-        border-radius: calc(0.6rem - 0.25rem);
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
-    }
+.icon-list:hover {
+    animation: pulse-in 0.5s ease-in-out;
+}
 </style>

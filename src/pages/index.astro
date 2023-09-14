@@ -5,14 +5,14 @@ import Layout from '@/layouts/Layout.astro';
 ---
 
 <Layout title="Welcome to Sushy.dev">
-    <main class="container mx-auto p-6">
-        <h1 class="text-5xl text-white font-extrabold mb-8">
-            Welcome to <a href="/"><span class="text-gradient">Sushy.dev</span></a>
+    <main class="container mx-auto">
+        <h1 class="text-5xl text-white font-extrabold py-6">
+            Welcome to <a href="/"><span class="bg-accent-gradient bg-clip-text text-transparent bg-400%">Sushy.dev</span></a>
         </h1>
 
         <Icons />
 
-        <div class="mt-0 instructions whitespace-[break-space]">
+        <div class="border-2 border-accent-25 rounded p-4 [&_p]:text-white [&_strong]:text-accent">
             <p><strong>"You!" a voice boomed.</strong></p>
             <br />
             <p>Jake stopped and turned to face a tall, lanky, pale blond man who was obviously angry. <em>"Are you Jake? The new guy?"</em></p>
@@ -44,7 +44,7 @@ import Layout from '@/layouts/Layout.astro';
             <p>Tom burst to his feet. "I knew it! You <strong>BROKE IT!</strong>" He turned to face the VPs. "I can't deal with coders who don't understand the system! You will either fire Jake... or I quit!" And he stormed out of the room.</p>
         </div>
 
-        <ul role="list" class="link-card-grid">
+        <ul>
             <Card
                 href="https://github.com/SushyDev"
                 title="Github"
@@ -53,44 +53,3 @@ import Layout from '@/layouts/Layout.astro';
         </ul>
     </main>
 </Layout>
-
-<style>
-    .text-gradient {
-        background-image: var(--accent-gradient);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-size: 400%;
-        background-position: 0%;
-    }
-
-    .instructions {
-        line-height: 1.6;
-        margin: 1rem 0;
-        border: 1px solid rgba(var(--accent), 25%);
-        background-color: rgba(255,255,255,0);
-        color: white;
-        backdrop-filter: blur(1rem);
-        padding: 1rem;
-        border-radius: 0.4rem;
-    }
-
-    .instructions code {
-        font-size: 0.875em;
-        font-weight: bold;
-        background: rgba(var(--accent), 12%);
-        color: rgb(var(--accent));
-        border-radius: 4px;
-        padding: 0.3em 0.45em;
-    }
-
-    .instructions strong {
-        color: rgb(var(--accent));
-    }
-
-    .link-card-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(24ch, 1fr));
-        gap: 1rem;
-        padding: 0;
-    }
-</style>
