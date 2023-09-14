@@ -5,12 +5,14 @@ import Layout from '@/layouts/Layout.astro';
 ---
 
 <Layout title="Welcome to Sushy.dev">
-    <main class="container mx-auto">
+    <main class="container mx-auto px-6">
         <h1 class="text-5xl text-white font-extrabold py-6">
             Welcome to <a href="/"><span class="bg-accent-gradient bg-clip-text text-transparent bg-400%">Sushy.dev</span></a>
         </h1>
 
-        <Icons />
+        <div class="py-3">
+            <Icons />
+        </div>
 
         <div class="border-2 border-accent-25 rounded p-4 [&_p]:text-white [&_strong]:text-accent">
             <p><strong>"You!" a voice boomed.</strong></p>
@@ -44,7 +46,7 @@ import Layout from '@/layouts/Layout.astro';
             <p>Tom burst to his feet. "I knew it! You <strong>BROKE IT!</strong>" He turned to face the VPs. "I can't deal with coders who don't understand the system! You will either fire Jake... or I quit!" And he stormed out of the room.</p>
         </div>
 
-        <ul>
+        <ul class="pt-6">
             <Card
                 href="https://github.com/SushyDev"
                 title="Github"
