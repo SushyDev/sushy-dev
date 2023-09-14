@@ -7,42 +7,28 @@ import Layout from '@/layouts/Layout.astro';
 <Layout title="Welcome to Sushy.dev">
     <main class="container mx-auto px-6">
         <h1 class="text-5xl text-white font-extrabold py-6">
-            Welcome to <a href="/"><span class="bg-accent-gradient bg-clip-text text-transparent bg-400%">Sushy.dev</span></a>
+            Welcome to <a href="/"><span class="text-shadow bg-accent-gradient bg-clip-text text-transparent bg-400%">Sushy.dev</span></a>
         </h1>
 
         <div class="py-3">
             <Icons />
         </div>
 
-        <div class="border-2 border-accent-25 rounded p-4 [&_p]:text-white [&_strong]:text-accent">
+        <div class="backdrop-blur border-2 border-accent-25 rounded px-4 [&_p]:my-4 [&_p]:text-white [&_strong]:text-accent">
             <p><strong>"You!" a voice boomed.</strong></p>
-            <br />
             <p>Jake stopped and turned to face a tall, lanky, pale blond man who was obviously angry. <em>"Are you Jake? The new guy?"</em></p>
-            <br />
             <p>"Yes," he answered carefully.</p>
-            <br />
             <p>"I'm Tom. You broke JDSL!"</p>
-            <br />
             <p>"Uh, what?" Jake had only been looking at the customer portal. How could he have caused any problems?</p>
-            <br />
             <p>"You broke JDSL!" he screamed. "I'm reporting you to the bosses and having you fired!" And Tom turned and stormed off, leaving Jake standing confused.</p>
-            <br />
             <p>Shortly afterwards, Jake was summoned to a small conference room. Tom, an employee from HR, and a couple Vice Presidents waited for him. Tom looked like he was stewing and could boil over any minute.</p>
-            <br />
             <p><em>"Tell us what you did to JDSL,"</em> one of the VP's asked.</p>
-            <br />
             <p>"I don't think I did anything," Jake answered. "I've only been here two weeks, trying to learn JDSL and how the customer portal works. I don't even know how to deploy it!"</p>
-            <br />
             <p>"You made a few commits to Subversion!" Tom shouted.</p>
-            <br />
             <p>"Well, yes. I added a few code comments, trying to–"</p>
-            <br />
             <p>"You can't use comments in JDSL!" Tom shouted. <strong>"THAT'S WHAT BROKE IT!!"</strong></p>
-            <br />
             <p>Jake stayed silent, trying to process how code comments could wipe out a customer database. Tom continued after a pause. "I haven't added comment support to JDSL, so the runtime executes comments like normal code! You must have had database updates in some comments?!"</p>
-            <br />
             <p>"Well, yeah, I put a couple short syntax examples in a comment to clarify–"</p>
-            <br />
             <p>Tom burst to his feet. "I knew it! You <strong>BROKE IT!</strong>" He turned to face the VPs. "I can't deal with coders who don't understand the system! You will either fire Jake... or I quit!" And he stormed out of the room.</p>
         </div>
 
@@ -55,3 +41,9 @@ import Layout from '@/layouts/Layout.astro';
         </ul>
     </main>
 </Layout>
+
+<style>
+.text-shadow {
+    text-shadow: 0 0 2rem rgb(var(--accent));
+}
+</style>
