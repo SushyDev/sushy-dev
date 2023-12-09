@@ -4,6 +4,7 @@ import vertexShader from './vertex.glsl?raw';
 const FPS = 30;
 const FRAME_DELAY = 1000
 const FRAME_TIME = FRAME_DELAY / FPS;
+const DOWN_SAMPLE = 2;
 
 class Renderer {
     constructor(canvas, width, height, vertexShader, fragmentShader) {
@@ -32,7 +33,7 @@ class Renderer {
 
         // Setup
         this.setPosition();
-        this.setSize(width, height);
+        this.setSize(width / DOWN_SAMPLE, height / DOWN_SAMPLE);
         this.setUniforms();
         this.render();
     }
@@ -119,7 +120,7 @@ class Renderer {
         if (this.paused) return;
 
         const time = new Date().getTime();
-        if(time - this.lastTime < FRAME_TIME) return;
+        if (time - this.lastTime < FRAME_TIME) return;
         this.lastTime = time;
 
         this.gl.uniform1f(this.time, performance.now() / FRAME_DELAY);
