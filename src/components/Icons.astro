@@ -31,7 +31,7 @@ async function forEachIcon(callback: (icon: Icon) => Element) {
 }
 ---
 
-<div class="icon-list p-1 rounded-lg bg-no-repeat hover:bg-accent-gradient hover:bg-400%">
+<div class="icon-list p-1 rounded-lg bg-no-repeat hover:bg-accent-gradient hover:bg-400% mix-blend-difference">
     <div class="p-4 overflow-x-auto no-scrollbar cursor-default bg-black rounded-md shadow-md">
         <ul class="flex gap-4">
             { forEachIcon((icon) => (<Icon image={icon.image} title={icon.title} />)) }
