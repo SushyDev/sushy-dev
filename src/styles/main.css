@@ -1,22 +1,22 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@theme {
+  --color-accent: rgb(var(--accent) / <alpha-value>);
+  --color-accent-25: rgb(var(--accent) / 0.25);
+  
+  --background-image-accent-gradient: var(--accent-gradient);
+  
+  --background-size-0\%: 0%;
+  --background-size-400\%: 400%;
+}
 
 :root {
-    --accent: 100, 160, 200;
+    --accent: 100 160 200;
     --accent-gradient: linear-gradient(45deg, rgb(var(--accent)), #62dac2 30%, white 60%);
 }
 
-@font-face {
-    font-family: shin-go;
-    src: url('/font/ShinGoPro-Regular.woff2') format('woff2');
-    font-weight: 400;
-    font-style: normal;
-    font-display: swap;
-}
-
 html {
-    font-family: shin-go, system-ui, sans-serif;
+    font-family: system-ui, sans-serif;
     background-color: #000000;
 }
 

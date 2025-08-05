@@ -1,23 +1,28 @@
 import { defineConfig } from 'astro/config';
-import tailwind from '@astrojs/tailwind';
+import tailwindcss from "@tailwindcss/vite";
+import playformCompress from '@playform/compress';
 
 // https://astro.build/config
 export default defineConfig({
-    integrations: [
-        tailwind({
-            configFile: 'tailwind.config.ts',
-            applyBaseStyles: false,
-        }),
-    ],
-    vite: {
-        optimizeDeps: {
-            exclude: ["@ffmpeg/ffmpeg", "@ffmpeg/util"],
-        },
-        worker: {
-            format: "es",
-        },
-        build: {
-            target: "es2022",
-        }
-    }
-});
+	vite: {
+		optimizeDeps: {
+			exclude: ["@ffmpeg/ffmpeg", "@ffmpeg/util"],
+		},
+		css: {
+			transformer: 'lightningcss',
+
+		},
+
+		plugins: [tailwindcss()],
+
+		build: {
+			cssMinify: 'lightningcss',
+		}
+	},
+
+	build: {
+		inlineStylesheets: 'always',
+	},
+
+	integrations: [(await import("@playform/compress")).default()],
+})
